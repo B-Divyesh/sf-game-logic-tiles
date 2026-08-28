@@ -1,4 +1,19 @@
-# Game Logic Tiles — build handoff
+# Game Logic Tiles — verification handoff
+
+## Independent verification status: FAIL
+
+Candidate `96fafe2f20dec95b393a92440103dae1d2173570` was independently checked
+against the live deployment at https://game-logic-tiles.sociobot.in on
+2026-08-28 UTC. **Do not release it.**
+
+The deployed assets match this candidate and core game, offline, privacy,
+mobile, keyboard, and Axe checks passed. Release is blocked by undersized
+interactive targets (for example, live `/demo` Start for real is 95 × 36 px on
+desktop and 61 × 37 px at 390px wide) and user-facing README/landing claims
+that have no entries or tagged tests in `.factory/claims.json`. Full commands,
+measurements, and remediation are in `.factory/verification.md`.
+
+## Builder handoff (superseded by the independent verdict)
 
 ## What was built
 
@@ -25,7 +40,7 @@ npm run build
 
 The verification sandbox is `http://localhost:5173/demo`. The production build command is exactly `npm run build`. Static output lands in `dist/`, and `dist/index.html` is present at its root.
 
-## Verification completed
+## Builder-reported verification
 
 - `npm test`: passed — 5 rule-engine tests and 13 Chromium tests.
 - All five `.factory/claims.json` claim paths passed from the demo sandbox.
