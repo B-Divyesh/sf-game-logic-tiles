@@ -150,7 +150,8 @@ kbd { margin-left: 9px; padding: 2px 6px; color: inherit; font-size: 12px; borde
 
 .site-footer { position: relative; z-index: 2; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 max(42px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1fr auto; gap: 20px 40px; color: var(--mist-300); border-top: 1px solid var(--night-700); font-size: 13px; }.site-footer > div { display: flex; gap: 12px; }.site-footer p { margin: 0; }.footer-mark { color: var(--amber-400); font-size: 24px; }.site-footer nav a { min-height: 44px; display: inline-flex; align-items: center; color: var(--mist-300); }.build-id, .art-credit { grid-row: 2; }.art-credit { text-align: right; }
 
-body[data-network="offline"] .site-header::after { content: "Offline"; position: absolute; right: 0; bottom: -34px; padding: 4px 8px; color: var(--night-950); background: var(--water-300); font-size: 12px; font-weight: 800; }
+.network-status { position: fixed; z-index: 30; right: 16px; bottom: 16px; padding: 7px 11px; display: none; color: var(--night-950); background: var(--water-300); font-size: 12px; font-weight: 800; box-shadow: 0 4px 18px rgba(0,0,0,.3); }
+body[data-network="offline"] .network-status { display: block; }
 
 @media (max-width: 900px) {
   .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 64px; }.hero-art { width: min(760px, 105vw); margin: 0 -20vw 0 6vw; }.preview-section { grid-template-columns: 1fr; gap: 32px; }.boundary-section { grid-template-columns: 1fr; gap: 24px; }.game-layout { grid-template-columns: 1fr; }.world-panel, .logic-panel { padding: 20px; }.game-board { max-width: 620px; margin: 0 auto; }.share-section { grid-template-columns: 1fr; gap: 24px; }

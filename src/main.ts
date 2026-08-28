@@ -32,6 +32,7 @@ function shell(content: string, route: Route, demo = false) {
         <a href="/privacy" data-route ${route === '/privacy' ? 'aria-current="page"' : ''}>Privacy</a>
       </nav>
     </header>
+    <div class="network-status" role="status">Offline</div>
     <div id="route-status" class="sr-only" aria-live="polite"></div>
     ${content}
     <footer class="site-footer">
@@ -151,10 +152,11 @@ function renderBoard(level: Level, state: GameState) {
       const goal = level.goal.x === x && level.goal.y === y;
       const gem = level.gems.some(item => item.x === x && item.y === y) && !state.collected.includes(`${x},${y}`);
       const player = state.player.x === x && state.player.y === y;
-      cells += `<div class="board-cell${wall ? ' is-wall' : ''}${goal ? ' is-goal' : ''}${gem ? ' has-gem' : ''}${player ? ' has-player' : ''}" role="gridcell" aria-label="${cellLabel(level, state, x, y)}">${goal ? '<span class="goal-piece" aria-hidden="true">◇</span>' : ''}${gem ? '<span class="gem-piece" aria-hidden="true">✦</span>' : ''}${player ? `<span class="player-piece faces-${state.direction}" aria-hidden="true">●<i></i></span>` : ''}</div>`;
+      cells += `<div class="board-cell${wall ? ' is-wall' : ''}${goal ? ' is-goal' : ''}${gem ? ' has-gem' : ''}${player ? ' has-player' : ''}" aria-hidden="true">${goal ? '<span class="goal-piece">◇</span>' : ''}${gem ? '<span class="gem-piece">✦</span>' : ''}${player ? `<span class="player-piece faces-${state.direction}">●<i></i></span>` : ''}</div>`;
     }
   }
-  return `<div class="game-board size-${level.size}" role="grid" aria-label="${level.name} game board">${cells}</div>`;
+  const boardSummary = `${level.name} board. Explorer at column ${state.player.x + 1}, row ${state.player.y + 1}. Beacon at column ${level.goal.x + 1}, row ${level.goal.y + 1}. ${level.gems.length - state.collected.length} seeds remain.`;
+  return `<div class="game-board size-${level.size}" role="img" aria-label="${boardSummary}">${cells}</div>`;
 }
 
 const directionNames: Record<Direction, string> = {up: 'Up', right: 'Right', down: 'Down', left: 'Left'};

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ten-lessons",
+    "claim": "Game Logic Tiles has ten playable lessons.",
+    "where": "landing boundary, lesson picker",
+    "test": "npm test -- --grep @claim:ten-lessons",
+    "sandbox": "fresh browser context at /demo; edit Move and solve lesson 1"
+  },
+  {
+    "id": "free-use",
+    "claim": "Free. No purchases.",
+    "where": "landing facts",
+    "test": "npm test -- --grep @claim:free-use",
+    "sandbox": "fresh browser context; assert no payment destination or purchase action"
+  },
+  {
+    "id": "private-local",
+    "claim": "No account or tracking; demo progress uses separate browser storage.",
+    "where": "landing facts, demo banner, privacy page, README",
+    "test": "npm test -- --grep @claim:private-local",
+    "sandbox": "fresh browser context at /demo; record every request and inspect localStorage keys"
+  },
+  {
+    "id": "share-seed",
+    "claim": "A challenge seed holds the lesson and five rule values.",
+    "where": "challenge share section, README",
+    "test": "npm test -- --grep @claim:share-seed",
+    "sandbox": "fresh demo; change two rules, create a link, and open it in the browser"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Reopens offline after the first visit.",
+    "where": "landing facts, README",
+    "test": "npm test -- --grep @claim:offline-reload",
+    "sandbox": "fresh browser context at /demo; wait for the service worker, go offline, and reload"
+  }
+]
