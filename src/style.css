@@ -46,12 +46,12 @@ button:disabled { cursor: not-allowed; opacity: .52; }
 .wordmark-icon circle { fill: var(--amber-400); stroke: none; }
 .wordmark-icon path:last-child { fill: var(--water-300); stroke: none; }
 .site-header nav, .site-footer nav { display: flex; align-items: center; gap: 28px; }
-.site-header nav a { min-height: 44px; display: inline-flex; align-items: center; color: var(--mist-300); text-decoration: none; border-bottom: 2px solid transparent; }
+.site-header nav a { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; color: var(--mist-300); text-decoration: none; border-bottom: 2px solid transparent; }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--mist-100); border-color: var(--amber-400); }
 
 .demo-banner { min-height: 48px; padding: 6px max(20px, calc((100vw - 1180px) / 2)); display: flex; justify-content: space-between; align-items: center; gap: 24px; color: var(--night-950); background: var(--amber-400); }
 .demo-banner > div { display: flex; align-items: center; gap: 18px; }
-.demo-banner a, .demo-banner .text-button { min-height: 36px; color: var(--amber-ink); font-weight: 750; }
+.demo-banner a, .demo-banner .text-button { min-width: 44px; min-height: 44px; padding: 8px 4px; color: var(--amber-ink); font-weight: 750; }
 
 main { position: relative; z-index: 1; }
 h1, h2, h3, p { margin-top: 0; }
@@ -148,7 +148,7 @@ kbd { margin-left: 9px; padding: 2px 6px; color: inherit; font-size: 12px; borde
 .legal-page { width: min(760px, calc(100% - 40px)); min-height: 70vh; margin: 0 auto; padding: 88px 0 120px; }.legal-page h1 { max-width: 13ch; }.legal-page h2 { margin: 48px 0 16px; font-size: 30px; }.legal-page p { max-width: 64ch; color: var(--mist-300); font-size: 18px; }.legal-page .updated { margin-top: 56px; color: var(--reed-400); font-size: 14px; }
 .lost-page { width: min(800px, calc(100% - 40px)); min-height: 72vh; margin: 0 auto; padding: 100px 0; text-align: center; }.lost-page h1 { max-width: 12ch; margin-left: auto; margin-right: auto; }.lost-page > p:not(.eyebrow) { color: var(--mist-300); }.lost-grid { max-width: 480px; margin: 0 auto 40px; display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--night-700); }.lost-grid > * { aspect-ratio: 1; display: grid; place-items: center; color: var(--amber-400); border-right: 1px solid var(--night-700); }.lost-grid > :last-child { color: var(--success-300); border: 0; }
 
-.site-footer { position: relative; z-index: 2; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 max(42px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1fr auto; gap: 20px 40px; color: var(--mist-300); border-top: 1px solid var(--night-700); font-size: 13px; }.site-footer > div { display: flex; gap: 12px; }.site-footer p { margin: 0; }.footer-mark { color: var(--amber-400); font-size: 24px; }.site-footer nav a { min-height: 44px; display: inline-flex; align-items: center; color: var(--mist-300); }.build-id, .art-credit { grid-row: 2; }.art-credit { text-align: right; }
+.site-footer { position: relative; z-index: 2; width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 max(42px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1fr auto; gap: 20px 40px; color: var(--mist-300); border-top: 1px solid var(--night-700); font-size: 13px; }.site-footer > div { display: flex; gap: 12px; }.site-footer p { margin: 0; }.footer-mark { color: var(--amber-400); font-size: 24px; }.site-footer nav a { min-width: 44px; min-height: 44px; padding: 0 5px; display: inline-flex; align-items: center; justify-content: center; color: var(--mist-300); }.build-id, .art-credit { grid-row: 2; }.art-credit { text-align: right; }
 
 .network-status { position: fixed; z-index: 30; right: 16px; bottom: 16px; padding: 7px 11px; display: none; color: var(--night-950); background: var(--water-300); font-size: 12px; font-weight: 800; box-shadow: 0 4px 18px rgba(0,0,0,.3); }
 body[data-network="offline"] .network-status { display: block; }
@@ -159,7 +159,7 @@ body[data-network="offline"] .network-status { display: block; }
 
 @media (max-width: 650px) {
   .site-header { width: min(100% - 28px, 1180px); min-height: 68px; }.wordmark span { max-width: 72px; font-size: 15px; line-height: 1.05; }.site-header nav { gap: 12px; }.site-header nav a { font-size: 14px; }.site-header nav a:nth-child(2) { display: none; }
-  .demo-banner { padding: 8px 14px; align-items: start; font-size: 13px; }.demo-banner > div { gap: 10px; }.demo-banner .text-button, .demo-banner a { min-height: 30px; font-size: 12px; }
+  .demo-banner { padding: 8px 14px; align-items: start; font-size: 13px; }.demo-banner > div { gap: 10px; }.demo-banner .text-button, .demo-banner a { min-width: 44px; min-height: 44px; font-size: 12px; }
   h1 { font-size: 44px; }.hero { padding: 54px 20px 72px; gap: 42px; }.hero-action { align-items: start; flex-direction: column; gap: 12px; }.hero-action > span { max-width: none; }.hero-art { width: 124vw; margin-left: -9vw; }.hero-art img { aspect-ratio: 4 / 3; object-position: 58% center; }.plain-facts { margin-top: 30px; }
   .preview-section, .how-section, .boundary-section { width: calc(100% - 40px); padding: 72px 0; }.mini-lab { padding: 16px; }.mini-cell { min-height: 50px; }.mini-rule { grid-template-columns: 1fr auto; }.mini-rule button { grid-column: span 2; }.steps { grid-template-columns: 1fr; }.steps li { min-height: auto; padding: 24px 0; border-right: 0; border-bottom: 1px solid var(--night-700); }
   .game-page { width: calc(100% - 24px); padding-top: 36px; }.game-heading { align-items: start; flex-direction: column; gap: 22px; }.level-picker { width: 100%; }.world-panel, .logic-panel { padding: 14px; }.game-board { padding: 5px; gap: 2px; }.direction-row { grid-template-columns: 1fr 1fr; }.direction-button { min-height: 46px; }.world-actions { display: grid; grid-template-columns: 1fr 1fr; }.world-actions .primary-button { grid-column: span 2; }.world-actions .text-button { min-height: 48px; }.rule-grid { grid-template-columns: 1fr 1fr; }.rule-tile { min-height: 102px; }.state-panel ul { grid-template-columns: 1fr; }.share-section { padding: 22px 16px; }.share-controls form > div, .share-output > div { grid-template-columns: 1fr; }.share-controls input { width: 100%; }.keyboard-note { padding-left: 8px; padding-right: 8px; }

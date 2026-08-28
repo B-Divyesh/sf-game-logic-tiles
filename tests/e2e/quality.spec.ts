@@ -22,6 +22,28 @@ test('mobile demo fits without horizontal scrolling and supports touch controls'
   await expect(page.getByText('Facing Left')).toBeVisible();
 });
 
+test('every visible interactive target is at least 44 by 44 pixels on desktop and 390px mobile', async ({page}) => {
+  const viewports = [{width: 1440, height: 900}, {width: 390, height: 844}];
+  const paths = ['/', '/demo', '/play', '/privacy', '/terms', '/lost-in-the-marsh'];
+  for (const viewport of viewports) {
+    await page.setViewportSize(viewport);
+    for (const path of paths) {
+      await page.goto(path);
+      const undersized = await page.locator('button:not([disabled]), a[href], input:not([type="hidden"]), select').evaluateAll(elements => elements
+        .filter(element => {
+          const style = getComputedStyle(element);
+          const rect = element.getBoundingClientRect();
+          return style.display !== 'none' && style.visibility !== 'hidden' && (rect.width < 44 || rect.height < 44);
+        })
+        .map(element => {
+          const rect = element.getBoundingClientRect();
+          return {name: element.getAttribute('aria-label') || element.textContent?.trim() || element.tagName, width: rect.width, height: rect.height};
+        }));
+      expect(undersized, `${path} at ${viewport.width}px`).toEqual([]);
+    }
+  }
+});
+
 test('bad challenge seeds explain what happened and what to do', async ({page}) => {
   await page.goto('/demo');
   await page.getByLabel('Open a challenge seed').fill('BROKEN');

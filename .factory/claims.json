@@ -33,5 +33,26 @@
     "where": "landing facts, README",
     "test": "npm test -- --grep @claim:offline-reload",
     "sandbox": "fresh browser context at /demo; wait for the service worker, go offline, and reload"
+  },
+  {
+    "id": "visible-world-change",
+    "claim": "Every move changes a small, visible world.",
+    "where": "landing hero caption",
+    "test": "npm test -- --grep @claim:visible-world-change",
+    "sandbox": "fresh browser context at /demo; change Move, step once, and compare the board state"
+  },
+  {
+    "id": "state-diff",
+    "claim": "Each step shows a plain state diff.",
+    "where": "README, game state panel",
+    "test": "npm test -- --grep @claim:state-diff",
+    "sandbox": "fresh browser context at /demo; step once and assert the written event and changed-state list"
+  },
+  {
+    "id": "keyboard-touch-controls",
+    "claim": "Keyboard and touch controls.",
+    "where": "README, game controls",
+    "test": "npm test -- --grep @claim:keyboard-touch-controls",
+    "sandbox": "fresh browser context at /demo; use ArrowRight and Enter, then use the Left touch control at 390px"
   }
 ]

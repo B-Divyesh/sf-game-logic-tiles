@@ -51,3 +51,32 @@ test('@claim:offline-reload reopens the demo after the first visit', async ({pag
   await expect(page.getByRole('heading', {level: 1, name: 'The missed seed'})).toBeVisible();
   await expect(page.getByText('Offline', {exact: true})).toBeVisible();
 });
+
+test('@claim:visible-world-change updates the board after one move', async ({page}) => {
+  await page.goto('/demo');
+  await page.getByRole('button', {name: /Move 2 squares/}).click();
+  const before = await page.locator('.game-board').getAttribute('aria-label');
+  await page.getByRole('button', {name: /Step world/}).click();
+  const after = await page.locator('.game-board').getAttribute('aria-label');
+  expect(before).not.toBe(after);
+  await expect(page.locator('.game-board .has-player')).toHaveCount(1);
+});
+
+test('@claim:state-diff writes a readable event and changed-state list after each step', async ({page}) => {
+  await page.goto('/demo');
+  await page.getByRole('button', {name: /Step world/}).click();
+  await expect(page.locator('.event-text')).toContainText('Moved 2 squares.');
+  await expect(page.locator('.state-panel li')).toHaveCount(4);
+  await expect(page.locator('.state-panel li').first()).toContainText('Position');
+});
+
+test('@claim:keyboard-touch-controls supports keyboard turns and 390px touch controls', async ({page}) => {
+  await page.setViewportSize({width: 390, height: 844});
+  await page.goto('/demo');
+  await page.locator('main').focus();
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.event-text')).toContainText('Moved 2 squares.');
+  await page.getByRole('button', {name: /Left/}).click();
+  await expect(page.getByText('Facing Left')).toBeVisible();
+});
