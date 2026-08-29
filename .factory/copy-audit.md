@@ -103,4 +103,4 @@ Audited 29 August 2026 after polish round 2. Counts treat hyphenated terms, path
 
 First-screen read-aloud: “Change game rules. See each turn. For puzzle beginners who want to understand game logic before learning code. Try it with sample data.”
 
-Catalog description: “Change five game rules and see each turn across ten beginner puzzles.” (68 characters)
+Catalog description: “Change five game rules and see each turn across ten beginner puzzles.” (69 characters)
