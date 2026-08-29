@@ -1,71 +1,44 @@
-# Game Logic Tiles — polish round 1 handoff
+# Game Logic Tiles — adversarial review 2 handoff
 
 ## Outcome
 
-All 23 findings in `.factory/review-1.md` are resolved and verified. The
-production static site is deployed at
-https://game-logic-tiles.sociobot.in.
+Completed the requested independent review without modifying product code.
+The verdict in `.factory/review-2.md` is **FAIL**: two blocking, two major, and
+five minor findings remain.
 
-The repair preserves the moonlit-marsh and brass-instrument visual system. It
-adds an isolated one-click `?demo=1` path, a persistent demo banner with reset
-and leave actions, exhaustive claim coverage, direct beginner copy, explicit
-SWA route rewrites, true HTTP 404 handling, complete 404/legal skeletons, and
-route-specific social metadata.
+The cold first screen is clear, the one-click demo works and is isolated, all
+12 declared claim commands pass, and the visual identity is distinct. The
+blocking defects are the inconsistent/undersized deployed standalone 404 shell
+(reopened F-1-22) and failure to restore scroll/focus on Back (F-2-1).
 
-## Commits and deployment
+## Verification performed
 
-- Repair: `879fe72a2ad0efe804343c5a771e8605f9bec458`
-- Visual evidence: `b46bc3feecfadc6bd71ecb0e142046ce603665ab`
-- Deployment: `/opt/fleet/lib/deploy-static.sh game-logic-tiles dist`
+- Fresh live Chromium contexts at 390 × 844 and 1440 × 900.
+- Live demo use, reset, exit, seeded real-data isolation, request logging, and
+  offline reload.
+- Live route metadata, HTTP status, heading, link, target-size, console, and
+  Axe checks across Home, Demo, Play, Privacy, Terms, and an unknown path.
+- `/opt/fleet/lib/verify-url.sh https://game-logic-tiles.sociobot.in <temp-dir>`.
+- Fresh clone `/tmp/game-logic-tiles-review-2.BMGJjS`: every command from
+  `.factory/claims.json`, full `npm test`, separate `npm run build`, and
+  production dependency audit.
+- Fresh result: 5 unit tests and 24 Playwright tests pass; build produces
+  `dist/`; runtime audit reports zero vulnerabilities; live JS/CSS match the
+  build.
+- Read `.factory/brief.json`, `.factory/design.md`, all prior review, polish,
+  verification, demo, copy-audit, and handoff files. Rechecked all 23 earlier
+  review findings in live behavior and source.
 
-The deployment was cold-checked after upload. Home returned HTTP 200 with
-“Game Logic Tiles — Change rules through play”; `/demo` returned HTTP 200;
-`/not-a-real-route` returned HTTP 404 with the full styled not-found
-document.
+## Files changed
 
-## Verification
+- `.factory/review-2.md` — complete verdict, findings, copy audit, claims,
+  demo, structure, history, accessibility, and missed-leverage evidence.
+- `.factory/handoff.md` — this review handoff.
 
-- Fresh clone: `/tmp/game-logic-tiles-clean.7QBGCZ`; ran `npm ci`, `npm test`,
-  and every command declared in `.factory/claims.json` individually.
-- Unit, typecheck, build, and browser suite: 5 Vitest tests and 24 Playwright
-  tests passed. The browser suite includes Axe on every product route,
-  offline reload, no-console-error flow, 44px target sweep, mobile overflow,
-  metadata, and error-state checks.
-- All 12 claim commands passed: `demo-first-action`, `landing-preview`,
-  `ten-lessons`, `rule-types`, `scope-boundaries`, `free-use`,
-  `private-local`, `share-seed`, `offline-reload`,
-  `visible-board-change`, `turn-change-list`, and
-  `keyboard-touch-controls`.
-- Live cold-browser recheck passed for landing action, demo storage isolation,
-  reset/leave behavior, rewritten copy, rule labels, preview behavior,
-  mobile 390px layout, route titles/metadata, Terms heading, HTTP 404, zero
-  serious/critical Axe findings, and no console errors.
-- Factory "/opt/fleet/lib/verify-url.sh" passed against the final live home:
-  HTTP 200, title, `lang="en"`, one h1, one main, complete image alt text,
-  labelled buttons, and no console errors (983 ms load in the verifier).
-- Lighthouse against live `/?demo=1`: Performance **100**, Accessibility
-  **100**, LCP **1.1 s**, CLS **0**.
-- Production audit: `npm audit --omit=dev` reports 0 vulnerabilities.
-- Built JavaScript is 9.14 kB gzip; CSS is 5.03 kB gzip.
+## Known gaps and next steps
 
-Screenshots: `.factory/evidence/landing-mobile.png`,
-`.factory/evidence/demo-desktop.png`,
-`.factory/evidence/demo-mobile.png`,
-`.factory/evidence/live-demo-desktop.png`, and
-`.factory/evidence/live-landing-mobile.png`.
-
-## How to run
-
-```sh
-npm ci
-npm test
-npm run build
-npm run dev
-```
-
-Use `http://localhost:5173/?demo=1` for the isolated sample. Deployment
-uploads `dist/` through the static work-order command above.
-
-## Known gaps
-
-None.
+No product fix was authorized. Address every finding in
+`.factory/review-2.md`, add the missing deployed-404/history/claim coverage,
+deploy, and run another full review. Do not treat the green current suite as a
+pass because it does not exercise the deployed standalone 404 or Back-state
+restoration.
