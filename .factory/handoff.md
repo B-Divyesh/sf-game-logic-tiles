@@ -40,6 +40,9 @@ document.
   reset/leave behavior, rewritten copy, rule labels, preview behavior,
   mobile 390px layout, route titles/metadata, Terms heading, HTTP 404, zero
   serious/critical Axe findings, and no console errors.
+- Factory "/opt/fleet/lib/verify-url.sh" passed against the final live home:
+  HTTP 200, title, `lang="en"`, one h1, one main, complete image alt text,
+  labelled buttons, and no console errors (983 ms load in the verifier).
 - Lighthouse against live `/?demo=1`: Performance **100**, Accessibility
   **100**, LCP **1.1 s**, CLS **0**.
 - Production audit: `npm audit --omit=dev` reports 0 vulnerabilities.
