@@ -8,7 +8,7 @@ const siteUrl = 'https://game-logic-tiles.sociobot.in';
 let currentCleanup: (() => void) | undefined;
 
 const routeInfo: Record<Route, {title: string; description: string}> = {
-  '/': {title: 'Game Logic Tiles — Learn rules through play', description: 'Change one rule, step the world, and see why the game state changed across ten small puzzles.'},
+  '/': {title: 'Game Logic Tiles — Change rules through play', description: 'Puzzle beginners change game rules and run turns across ten small learning puzzles.'},
   '/demo': {title: 'Demo — Game Logic Tiles', description: 'Try a sample game-logic puzzle without saving to your progress.'},
   '/play': {title: 'Play — Game Logic Tiles', description: 'Change movement, collision, collection, timer, and score rules in ten small puzzles.'},
   '/privacy': {title: 'Privacy — Game Logic Tiles', description: 'How Game Logic Tiles keeps puzzle progress in your browser.'},
@@ -48,10 +48,9 @@ function homePage() {
     <main id="main" tabindex="-1">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">A tiny game-logic workshop</p>
-          <h1>Change rules. See the game react.</h1>
+          <h1>Change game rules. See each turn.</h1>
           <p class="hero-lede">For puzzle beginners who want to understand game logic before learning code.</p>
-          <div class="hero-action"><a class="primary-button" href="/demo" data-route>Try it with sample data</a><span>It opens puzzle 1 with five rules to change.</span></div>
+          <div class="hero-action"><a class="primary-button" href="/?demo=1" data-route>Try it with sample data</a><span>Opens lesson 1 with five rule controls.</span></div>
           <ul class="plain-facts" aria-label="Product facts">
             <li><strong>Free.</strong> No purchases.</li>
             <li><strong>Private.</strong> No account or tracking.</li>
@@ -63,33 +62,33 @@ function homePage() {
             <source media="(max-width: 700px)" srcset="/assets/moonlit-rule-marsh-720.webp">
             <img src="/assets/moonlit-rule-marsh-1200.webp" width="1200" height="800" alt="A lantern explorer crosses a moonlit grid toward a glowing seed." fetchpriority="high" decoding="async">
           </picture>
-          <figcaption>Every move changes a small, visible world.</figcaption>
+          <figcaption>Run one turn to update the board and change list.</figcaption>
         </figure>
       </section>
 
       <section class="preview-section" aria-labelledby="preview-title">
-        <div class="section-heading"><p class="eyebrow">Live preview</p><h2 id="preview-title">A rule is a cause you can touch</h2><p>Change Move below. The state preview explains the result.</p></div>
+        <div class="section-heading"><p class="eyebrow">Live preview</p><h2 id="preview-title">Preview a movement rule</h2><p>Set Move to see the board result.</p></div>
         <div class="mini-lab">
           <div class="mini-board" aria-label="Preview board with explorer, seed, stone, and beacon">
             <span class="mini-cell explorer">●</span><span class="mini-cell seed">✦</span><span class="mini-cell stone">■</span><span class="mini-cell"></span><span class="mini-cell beacon">◇</span>
           </div>
-          <div class="mini-rule"><span>MOVE</span><strong id="preview-value">2 squares</strong><button type="button" id="preview-change">Change to 1</button></div>
+          <div class="mini-rule"><span>MOVE</span><strong id="preview-value">2 squares</strong><button type="button" id="preview-change">Set Move to 1 square</button></div>
           <p id="preview-result" class="mini-result" aria-live="polite"><strong>Before:</strong> the explorer skips the seed.</p>
         </div>
       </section>
 
       <section id="how" class="how-section" aria-labelledby="how-title">
-        <div class="section-heading"><p class="eyebrow">How it works</p><h2 id="how-title">Learn one cause at a time</h2></div>
+        <div class="section-heading"><p class="eyebrow">How it works</p><h2 id="how-title">Solve each lesson in three steps</h2></div>
         <ol class="steps">
-          <li><span>01</span><div><h3>Read the goal</h3><p>Each clearing asks for one small result.</p></div></li>
+          <li><span>01</span><div><h3>Read the goal</h3><p>Each puzzle asks you to reach one result.</p></div></li>
           <li><span>02</span><div><h3>Change a rule</h3><p>Edit movement, collisions, collecting, time, or points.</p></div></li>
-          <li><span>03</span><div><h3>Step the world</h3><p>Move once. A state diff shows what changed.</p></div></li>
+          <li><span>03</span><div><h3>Run one turn</h3><p>After each turn, see the position, turn, seeds, and score that changed.</p></div></li>
         </ol>
       </section>
 
       <section class="boundary-section" aria-labelledby="boundary-title">
-        <div><p class="eyebrow">A focused learning toy</p><h2 id="boundary-title">Small worlds, not a full game engine</h2></div>
-        <p>Game Logic Tiles has ten fixed puzzles. It does not include accounts, multiplayer, freeform code, or an asset store.</p>
+        <div><p class="eyebrow">Product limits</p><h2 id="boundary-title">Fixed puzzles for learning game rules</h2></div>
+        <p>Game Logic Tiles has ten playable lessons. It does not include accounts, multiplayer, freeform code, or an asset store.</p>
         <a class="secondary-button" href="/play" data-route>Start lesson 1</a>
       </section>
     </main>`, '/');
@@ -98,12 +97,12 @@ function homePage() {
 function legalPage(kind: 'privacy' | 'terms') {
   const privacy = kind === 'privacy';
   const content = privacy ? `
-    <p class="eyebrow">Plain privacy notes</p><h1>Your puzzle progress stays here</h1>
+    <p class="eyebrow">Privacy</p><h1>Privacy for Game Logic Tiles</h1>
     <p>Game Logic Tiles stores lesson progress and rule choices in this browser. The demo uses a separate temporary namespace.</p>
     <h2>What this site stores</h2><p>The site stores your current lesson, completed lessons, and changed rules. Resetting site data removes them.</p>
     <h2>What this site sends</h2><p>The app sends no puzzle progress, names, contact details, or analytics. Hosting servers may keep short security logs.</p>
     <h2>Your choices</h2><p>Use the demo without keeping progress. Use your browser settings to remove saved progress at any time.</p>` : `
-    <p class="eyebrow">Use terms</p><h1>Use these puzzles with care</h1>
+    <p class="eyebrow">Use terms</p><h1>Terms for using Game Logic Tiles</h1>
     <p>Game Logic Tiles is a free learning tool. You may use and share challenge links for personal or classroom learning.</p>
     <h2>No warranty</h2><p>The tool is provided as is. Check it before relying on it in a lesson or workshop.</p>
     <h2>Fair use</h2><p>Do not use the site to disrupt its service or harm other people. Shared seeds only contain puzzle settings.</p>
@@ -112,7 +111,7 @@ function legalPage(kind: 'privacy' | 'terms') {
 }
 
 function notFoundPage() {
-  return shell(`<main id="main" class="lost-page" tabindex="-1"><div class="lost-grid" aria-hidden="true"><span>●</span><i></i><i></i><i></i><span>◇</span></div><p class="eyebrow">404 · Lost clearing</p><h1>This path leaves the game board</h1><p>The page is not here. Return to the first clearing.</p><a class="primary-button" href="/" data-route>Return home</a></main>`, '/404');
+  return shell(`<main id="main" class="lost-page" tabindex="-1"><div class="lost-grid" aria-hidden="true"><span>●</span><i></i><i></i><i></i><span>◇</span></div><p class="eyebrow">404</p><h1>Page not found</h1><p>This page is not available. Return home to choose a puzzle.</p><a class="primary-button" href="/" data-route>Return home</a></main>`, '/404');
 }
 
 interface SavedProgress { levelId: number; completed: number[]; rules?: Rules }
@@ -161,6 +160,14 @@ function renderBoard(level: Level, state: GameState) {
 
 const directionNames: Record<Direction, string> = {up: 'Up', right: 'Right', down: 'Down', left: 'Left'};
 
+function nextRuleLabel(key: keyof Rules, value: string) {
+  if (key === 'move') return `Set Move to ${value === '1 square' ? '2 squares' : '1 square'}`;
+  if (key === 'collide') return `Set Collide to ${value === 'stop' ? 'bounce' : 'stop'}`;
+  if (key === 'collect') return `Set Collect to ${value === 'on' ? 'off' : 'on'}`;
+  if (key === 'timer') return `Set Timer to ${Number.parseInt(value, 10) >= 12 ? 3 : Number.parseInt(value, 10) + 1} turns`;
+  return `Set Score to ${Number.parseInt(value, 10) === 3 ? 1 : Number.parseInt(value, 10) + 1} per seed`;
+}
+
 function appTemplate(level: Level, rules: Rules, state: GameState, completed: number[], demo: boolean, showHint = false, shareValue = '') {
   const seed = createSeed(level.id, rules);
   const ruleTiles = [
@@ -177,17 +184,17 @@ function appTemplate(level: Level, rules: Rules, state: GameState, completed: nu
     </section>
     <div class="game-layout">
       <section class="world-panel" aria-labelledby="world-title">
-        <div class="panel-top"><h2 id="world-title">The clearing</h2><span class="status-chip ${state.status}">${state.status === 'playing' ? `${state.turns} / ${rules.timer} turns` : state.status === 'won' ? 'Solved' : 'Timer ended'}</span></div>
+        <div class="panel-top"><h2 id="world-title">Puzzle board</h2><span class="status-chip ${state.status}">${state.status === 'playing' ? `${state.turns} / ${rules.timer} turns` : state.status === 'won' ? 'Solved' : 'Timer ended'}</span></div>
         ${renderBoard(level, state)}
         <div class="direction-row" aria-label="Choose move direction">
           ${(Object.keys(directionNames) as Direction[]).map(direction => `<button class="direction-button ${state.direction === direction ? 'selected' : ''}" type="button" data-direction="${direction}" aria-pressed="${state.direction === direction}"><span aria-hidden="true">${{up: '↑', right: '→', down: '↓', left: '←'}[direction]}</span>${directionNames[direction]}</button>`).join('')}
         </div>
-        <div class="world-actions"><button class="primary-button" type="button" id="step-world" ${state.status !== 'playing' ? 'disabled' : ''}>Step world <kbd>Enter</kbd></button><button class="secondary-button" type="button" id="undo-step">Undo step</button><button class="text-button" type="button" id="reset-world">Reset <kbd>R</kbd></button></div>
+        <div class="world-actions"><button class="primary-button" type="button" id="step-world" ${state.status !== 'playing' ? 'disabled' : ''}>Run one turn <kbd>Enter</kbd></button><button class="secondary-button" type="button" id="undo-step">Undo turn</button><button class="text-button" type="button" id="reset-world">Reset <kbd>R</kbd></button></div>
       </section>
       <section class="logic-panel" aria-labelledby="rules-title">
         <div class="panel-top"><div><p class="panel-kicker">Editable tiles</p><h2 id="rules-title">Rules</h2></div><button class="hint-button" type="button" id="toggle-hint" aria-expanded="${showHint}">${showHint ? 'Hide hint' : 'Show hint'}</button></div>
         ${showHint ? `<p class="hint-box"><strong>Try this:</strong> ${level.hint}</p>` : ''}
-        <div class="rule-grid">${ruleTiles.map(([key, label, value]) => `<button type="button" class="rule-tile" data-rule="${key}"><span>${label}</span><strong>${value}</strong><small>Click to change</small></button>`).join('')}</div>
+        <div class="rule-grid">${ruleTiles.map(([key, label, value]) => `<button type="button" class="rule-tile" data-rule="${key}" aria-label="${nextRuleLabel(key as keyof Rules, value)}"><span>${label}</span><strong>${value}</strong><small>Tap or press Enter to change</small></button>`).join('')}</div>
         <div class="state-panel" aria-live="polite" aria-atomic="true">
           <p class="panel-kicker">What just happened</p><p class="event-text">${state.event}</p>
           <ul>${state.diff.map(item => `<li>${item}</li>`).join('')}</ul>
@@ -196,10 +203,10 @@ function appTemplate(level: Level, rules: Rules, state: GameState, completed: nu
       </section>
     </div>
     <section class="share-section" aria-labelledby="share-title">
-      <div><p class="eyebrow">Pass the puzzle on</p><h2 id="share-title">Share these rules</h2><p>A challenge seed holds the lesson and five rule values.</p></div>
+      <div><p class="eyebrow">Share a puzzle link</p><h2 id="share-title">Share these rules</h2><p>A challenge seed holds the lesson and five rule values.</p></div>
       <div class="share-controls"><button class="secondary-button" type="button" id="publish-seed">Create challenge link</button>${shareValue ? `<div class="share-output"><label for="share-link">Challenge link</label><div><input id="share-link" value="${shareValue}" readonly><button type="button" id="copy-link">Copy link</button></div><p>Seed: <code>${seed}</code></p></div>` : ''}<form id="seed-form"><label for="seed-input">Open a challenge seed</label><div><input id="seed-input" name="seed" autocomplete="off" spellcheck="false" placeholder="GLT1-…"><button type="submit">Load seed</button></div><p id="seed-error" class="form-error" aria-live="polite"></p></form></div>
     </section>
-    <section class="keyboard-note"><h2>Keyboard controls</h2><p>Use arrow keys to face a direction. Press Enter to step. Press R to reset.</p></section>
+    <section class="keyboard-note"><h2>Keyboard controls</h2><p>Use arrow keys to face a direction. Press Enter to run one turn. Press R to reset.</p></section>
   </main>`, demo ? '/demo' : '/play', demo);
 }
 
@@ -225,7 +232,7 @@ function setupGame(demo: boolean) {
     bindGame();
     if (focusSelector) requestAnimationFrame(() => document.querySelector<HTMLElement>(focusSelector)?.focus());
   };
-  const resetWorld = (message = 'World reset. Choose a direction, then step.') => {
+  const resetWorld = (message = 'Board reset. Choose a direction, then run one turn.') => {
     state = {...initialState(level), event: message};
     undoHistory = [];
   };
@@ -241,7 +248,7 @@ function setupGame(demo: boolean) {
   const bindGame = () => {
     document.querySelector<HTMLSelectElement>('#level-select')?.addEventListener('change', event => changeLevel(Number((event.target as HTMLSelectElement).value)));
     document.querySelectorAll<HTMLButtonElement>('[data-direction]').forEach(button => button.addEventListener('click', () => {
-      state = {...state, direction: button.dataset.direction as Direction, event: `Facing ${button.textContent?.trim()}. Press Step world.`, diff: ['Direction changed. World state is unchanged.']};
+      state = {...state, direction: button.dataset.direction as Direction, event: `Facing ${button.textContent?.trim()}. Press Run one turn.`, diff: ['Direction changed. Board state is unchanged.']};
       rerender(`[data-direction="${state.direction}"]`);
     }));
     document.querySelector<HTMLButtonElement>('#step-world')?.addEventListener('click', () => {
@@ -265,7 +272,7 @@ function setupGame(demo: boolean) {
       if (key === 'collect') rules.collect = !rules.collect;
       if (key === 'timer') rules.timer = rules.timer >= 12 ? 3 : rules.timer + 1;
       if (key === 'score') rules.score = (rules.score === 3 ? 1 : rules.score + 1) as 1 | 2 | 3;
-      resetWorld(`${button.querySelector('span')?.textContent} changed. The world reset so you can test the new cause.`);
+      resetWorld(`${button.querySelector('span')?.textContent} changed. The board reset so you can test the new rule.`);
       shareValue = '';
       save();
       rerender(`[data-rule="${key}"]`);
@@ -329,7 +336,8 @@ function bindShell() {
   document.querySelectorAll<HTMLAnchorElement>('a[data-route]').forEach(link => link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || link.target) return;
     event.preventDefault();
-    navigate(new URL(link.href).pathname);
+    const destination = new URL(link.href);
+    navigate(`${destination.pathname}${destination.search}`);
   }));
   document.querySelectorAll<HTMLAnchorElement>('a[data-home-anchor]').forEach(link => link.addEventListener('click', event => {
     if (location.pathname === '/') return;
@@ -349,13 +357,20 @@ function setMeta(route: Route) {
   document.title = info.title;
   document.querySelector<HTMLMetaElement>('meta[name="description"]')!.content = info.description;
   document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = `${siteUrl}${route === '/404' ? '/404' : route}`;
+  const canonical = `${siteUrl}${route === '/404' ? '/404' : route}`;
+  document.querySelector<HTMLMetaElement>('meta[property="og:title"]')!.content = info.title;
+  document.querySelector<HTMLMetaElement>('meta[property="og:description"]')!.content = info.description;
+  document.querySelector<HTMLMetaElement>('meta[property="og:url"]')!.content = canonical;
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]')!.content = info.title;
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]')!.content = info.description;
 }
 
 function render(moveFocus = false) {
   currentCleanup?.();
   currentCleanup = undefined;
   const known = ['/', '/demo', '/play', '/privacy', '/terms'];
-  const route = (known.includes(location.pathname) ? location.pathname : '/404') as Route;
+  const demoQuery = location.pathname === '/' && new URLSearchParams(location.search).get('demo') === '1';
+  const route = (demoQuery ? '/demo' : known.includes(location.pathname) ? location.pathname : '/404') as Route;
   setMeta(route);
   if (route === '/') app.innerHTML = homePage();
   else if (route === '/privacy' || route === '/terms') app.innerHTML = legalPage(route.slice(1) as 'privacy' | 'terms');
@@ -367,7 +382,7 @@ function render(moveFocus = false) {
       const button = event.currentTarget as HTMLButtonElement;
       const changed = button.dataset.changed === 'true';
       button.dataset.changed = String(!changed);
-      button.textContent = changed ? 'Change to 1' : 'Change to 2';
+      button.textContent = changed ? 'Set Move to 1 square' : 'Set Move to 2 squares';
       document.querySelector('#preview-value')!.textContent = changed ? '2 squares' : '1 square';
       document.querySelector('#preview-result')!.innerHTML = changed ? '<strong>Before:</strong> the explorer skips the seed.' : '<strong>After:</strong> the explorer lands on the seed and collects it.';
     });

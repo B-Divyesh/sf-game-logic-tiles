@@ -1,58 +1,14 @@
 [
-  {
-    "id": "ten-lessons",
-    "claim": "Game Logic Tiles has ten playable lessons.",
-    "where": "landing boundary, lesson picker",
-    "test": "npm test -- --grep @claim:ten-lessons",
-    "sandbox": "fresh browser context at /demo; edit Move and solve lesson 1"
-  },
-  {
-    "id": "free-use",
-    "claim": "Free. No purchases.",
-    "where": "landing facts",
-    "test": "npm test -- --grep @claim:free-use",
-    "sandbox": "fresh browser context; assert no payment destination or purchase action"
-  },
-  {
-    "id": "private-local",
-    "claim": "No account or tracking; demo progress uses separate browser storage.",
-    "where": "landing facts, demo banner, privacy page, README",
-    "test": "npm test -- --grep @claim:private-local",
-    "sandbox": "fresh browser context at /demo; record every request and inspect localStorage keys"
-  },
-  {
-    "id": "share-seed",
-    "claim": "A challenge seed holds the lesson and five rule values.",
-    "where": "challenge share section, README",
-    "test": "npm test -- --grep @claim:share-seed",
-    "sandbox": "fresh demo; change two rules, create a link, and open it in the browser"
-  },
-  {
-    "id": "offline-reload",
-    "claim": "Reopens offline after the first visit.",
-    "where": "landing facts, README",
-    "test": "npm test -- --grep @claim:offline-reload",
-    "sandbox": "fresh browser context at /demo; wait for the service worker, go offline, and reload"
-  },
-  {
-    "id": "visible-world-change",
-    "claim": "Every move changes a small, visible world.",
-    "where": "landing hero caption",
-    "test": "npm test -- --grep @claim:visible-world-change",
-    "sandbox": "fresh browser context at /demo; change Move, step once, and compare the board state"
-  },
-  {
-    "id": "state-diff",
-    "claim": "Each step shows a plain state diff.",
-    "where": "README, game state panel",
-    "test": "npm test -- --grep @claim:state-diff",
-    "sandbox": "fresh browser context at /demo; step once and assert the written event and changed-state list"
-  },
-  {
-    "id": "keyboard-touch-controls",
-    "claim": "Keyboard and touch controls.",
-    "where": "README, game controls",
-    "test": "npm test -- --grep @claim:keyboard-touch-controls",
-    "sandbox": "fresh browser context at /demo; use ArrowRight and Enter, then use the Left touch control at 390px"
-  }
+  {"id":"demo-first-action","claim":"Try it with sample data opens lesson 1 with five rule controls.","where":"landing action note","test":"npm test -- --grep @claim:demo-first-action","sandbox":"fresh context at /; click the action and assert ?demo=1, lesson 1, banner, and five controls"},
+  {"id":"landing-preview","claim":"Set Move to see the board result.","where":"landing preview","test":"npm test -- --grep @claim:landing-preview","sandbox":"fresh context at /; change Move and assert the value and before/after result"},
+  {"id":"ten-lessons","claim":"Game Logic Tiles has ten playable lessons.","where":"landing product limits, lesson picker","test":"npm test -- --grep @claim:ten-lessons","sandbox":"fresh context at ?demo=1; load every lesson and assert its unique board, goal, and five controls; unit tests solve each lesson"},
+  {"id":"rule-types","claim":"Edit movement, collisions, collecting, time, or points.","where":"landing how it works, README","test":"npm test -- --grep @claim:rule-types","sandbox":"fresh context at ?demo=1; change each rule type and assert its observable board or state effect"},
+  {"id":"scope-boundaries","claim":"It does not include accounts, multiplayer, freeform code, or an asset store.","where":"landing product limits","test":"npm test -- --grep @claim:scope-boundaries","sandbox":"crawl shipped routes and inspect the shipped app for account, multiplayer, code-editor, and marketplace controls or destinations"},
+  {"id":"free-use","claim":"Free. No purchases.","where":"landing facts","test":"npm test -- --grep @claim:free-use","sandbox":"fresh browser context; assert no payment destination or purchase action"},
+  {"id":"private-local","claim":"No account or tracking; demo progress uses separate browser storage.","where":"landing facts, demo banner, privacy page, README","test":"npm test -- --grep @claim:private-local","sandbox":"seed normal progress, use/reset demo, start for real, inspect namespaces and record every request"},
+  {"id":"share-seed","claim":"A challenge seed holds the lesson and five rule values.","where":"challenge share section, README","test":"npm test -- --grep @claim:share-seed","sandbox":"fresh demo; choose a non-default lesson, set every rule value, create a link, and reopen it in a new context"},
+  {"id":"offline-reload","claim":"Reopens offline after the first visit.","where":"landing facts, README","test":"npm test -- --grep @claim:offline-reload","sandbox":"fresh context at ?demo=1; wait for the service worker, go offline, and reload"},
+  {"id":"visible-board-change","claim":"Run one turn to update the board and change list.","where":"landing hero caption","test":"npm test -- --grep @claim:visible-board-change","sandbox":"fresh context at ?demo=1; run one turn and compare board state and change list"},
+  {"id":"turn-change-list","claim":"After each turn, see the position, turn, seeds, and score that changed.","where":"landing how it works, README, game state panel","test":"npm test -- --grep @claim:turn-change-list","sandbox":"fresh context at ?demo=1; exercise movement, collision, collection, timer, and solved turns and assert all four rows"},
+  {"id":"keyboard-touch-controls","claim":"Keyboard and touch controls.","where":"README, game controls","test":"npm test -- --grep @claim:keyboard-touch-controls","sandbox":"fresh context at ?demo=1; use ArrowRight and Enter, then the Left control at 390px"}
 ]

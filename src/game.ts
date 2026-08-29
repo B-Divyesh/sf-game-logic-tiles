@@ -126,7 +126,7 @@ const samePoint = (a: Point, b: Point) => a.x === b.x && a.y === b.y;
 export function initialState(level: Level): GameState {
   return {
     player: {...level.start}, direction: 'right', turns: 0, score: 0, collected: [],
-    status: 'playing', event: 'World ready. Choose a direction, then step.', diff: ['No state change yet.'],
+    status: 'playing', event: 'Board ready. Choose a direction, then run one turn.', diff: ['No state change yet.'],
   };
 }
 

@@ -1,10 +1,10 @@
 # Game Logic Tiles
 
-Change one rule, step the world, and see why the game state changed.
+Change game rules and see each turn.
 
-Game Logic Tiles is for puzzle-loving beginners who want to learn game-state logic before learning a programming language or engine. Ten one-screen lessons cover movement, collisions, collecting, timers, and scoring. Each step shows a plain state diff.
+Game Logic Tiles is for puzzle-loving beginners who want to learn game logic before learning a programming language or engine. Ten lessons cover movement, collisions, collecting, timers, and scoring. After each turn, a list shows the position, turn, seeds, and score that changed.
 
-Try the isolated sample at [`/demo`](https://game-logic-tiles.sociobot.in/demo). The demo stores progress under a separate `demo:` browser key. **Reset demo** removes that progress, and **Start for real** starts a clean run.
+Try the isolated sample at [`?demo=1`](https://game-logic-tiles.sociobot.in/?demo=1) or [`/demo`](https://game-logic-tiles.sociobot.in/demo). The demo stores progress under a separate `demo:` browser key. **Reset demo** restores the sample, and **Start for real** leaves the demo and resumes your saved progress.
 
 ## What it includes
 
@@ -15,7 +15,7 @@ Try the isolated sample at [`/demo`](https://game-logic-tiles.sociobot.in/demo).
 - Local browser storage with no account or tracking.
 - Free use with no purchases.
 
-The project does not include freeform programming, multiplayer, or an asset marketplace.
+The project does not include accounts, multiplayer, freeform programming, or an asset store.
 
 ## Run locally
 
@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173/demo` for the verification sandbox.
+Open `http://localhost:5173/?demo=1` for the verification sandbox.
 
 ## Test and build
 
@@ -39,7 +39,7 @@ npm run build
 
 ## Deploy
 
-Deploy the contents of `dist/` as a static site. `staticwebapp.config.json` supplies the SPA fallback, security headers, and the styled 404 response for Azure Static Web Apps.
+Deploy the contents of `dist/` as a static site. `staticwebapp.config.json` rewrites only the product routes, supplies security headers, and returns the styled 404 response for unknown paths.
 
 ## Privacy and license
 
