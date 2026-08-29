@@ -1,0 +1,70 @@
+{
+  "checkedAt": "2026-08-29T03:56:35.280Z",
+  "baseUrl": "https://game-logic-tiles.sociobot.in",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": "Game Logic Tiles — Change rules through play",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    },
+    {
+      "path": "/?demo=1",
+      "status": 200,
+      "title": "Demo — Game Logic Tiles",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    },
+    {
+      "path": "/demo",
+      "status": 200,
+      "title": "Demo — Game Logic Tiles",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    },
+    {
+      "path": "/play",
+      "status": 200,
+      "title": "Play — Game Logic Tiles",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "title": "Privacy — Game Logic Tiles",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    },
+    {
+      "path": "/terms",
+      "status": 200,
+      "title": "Terms — Game Logic Tiles",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    },
+    {
+      "path": "/not-a-real-route-polish-2",
+      "status": 404,
+      "title": "Page not found — Game Logic Tiles",
+      "seriousAxeFindings": 0,
+      "undersizedTargets": 0
+    }
+  ],
+  "demo": {
+    "oneClick": true,
+    "fiveRuleControls": true,
+    "resetAllDefaults": true,
+    "resumesUntouchedSavedProgress": true
+  },
+  "history": {
+    "savedScroll": 1637,
+    "restoredScroll": 1637,
+    "restoredFocus": "Privacy"
+  },
+  "privacy": {
+    "foreignRequests": []
+  },
+  "offlineReload": true
+}

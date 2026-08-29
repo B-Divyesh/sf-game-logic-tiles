@@ -1,6 +1,7 @@
 import {expect, test, type Page} from '@playwright/test';
 
 const demoUrl = '/?demo=1';
+const testOrigin = new URL(process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4173').origin;
 const step = (page: Page) => page.getByRole('button', {name: /Run one turn/});
 
 async function selectLesson(page: Page, id: number) {
@@ -101,7 +102,7 @@ test('@claim:free-use has no purchase or payment path', async ({page}) => {
 test('@claim:private-local preserves real progress and removes the demo namespace', async ({page}) => {
   const foreignRequests: string[] = [];
   page.on('request', request => {
-    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') foreignRequests.push(request.url());
+    if (new URL(request.url()).origin !== testOrigin) foreignRequests.push(request.url());
   });
   const sentinel = JSON.stringify({levelId: 2, completed: [1], rules: {move: 1, collide: 'stop', collect: true, timer: 10, score: 1}});
   await page.goto('/');
@@ -167,7 +168,7 @@ test('@claim:share-seed restores a non-default lesson and all five rule values',
   await page.getByRole('button', {name: 'Create challenge link'}).click();
   const link = await page.getByLabel('Challenge link').inputValue();
   expect(link).toContain('/demo?seed=GLT1-');
-  const context = await browser.newContext({baseURL: 'http://127.0.0.1:4173'});
+  const context = await browser.newContext({baseURL: testOrigin});
   const restored = await context.newPage();
   await restored.goto(new URL(link).pathname + new URL(link).search);
   await expect(restored.getByRole('heading', {level: 1})).toHaveText('Worth the walk');
