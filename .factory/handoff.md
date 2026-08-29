@@ -8,6 +8,7 @@ The repair adds a shared app/404 shell with accessible mobile targets, history s
 
 - Implementation commit: `437c7b6`
 - Live-verification commit: `ea759ae`
+- Clean-clone candidate: `4f434395b8855c36fa79216d96038d2073728596`
 - Deployment ID: `c19a4b88-d78e-44e9-b503-2843a5482d83`
 - Live URL: <https://game-logic-tiles.sociobot.in>
 
@@ -24,7 +25,7 @@ npm run build
 
 ## Verification evidence
 
-- Fresh clone `/tmp/game-logic-tiles-polish-2.H7F6cV`: each of the 14 exact claim commands passed independently.
+- Final-candidate clone `/tmp/game-logic-tiles-final.shku0N`: each of the 14 exact claim commands passed independently, then the full suite, separate build, and audit passed.
 - Full local suite: 5 Vitest engine tests and 28 Playwright browser tests passed.
 - Separate production build passed: 9.52 KB gzip JavaScript and 5.03 KB gzip CSS.
 - Live claim suite: 14/14 passed against production.

@@ -1,6 +1,7 @@
 # Polish round 2 — cumulative finding closure
 
 - Reviewed base: `cc49a09e5724a4d17ecb1524023a9d369525e813`
+- Verified candidate: `4f434395b8855c36fa79216d96038d2073728596`
 - Repair commits: `437c7b6`, `ea759ae`
 - Live URL: <https://game-logic-tiles.sociobot.in>
 - Live check: 29 August 2026
@@ -50,7 +51,7 @@ Shared evidence: `.factory/evidence/polish-2-live/live-verification.json`; live 
 
 ## Final verification
 
-- All 14 exact commands in `.factory/claims.json` passed independently from clean clone `/tmp/game-logic-tiles-polish-2.H7F6cV`.
+- All 14 exact commands in `.factory/claims.json` passed independently from final-candidate clean clone `/tmp/game-logic-tiles-final.shku0N`.
 - Full local `npm test`: 5 unit tests and 28 Chromium tests passed.
 - Live claim suite: 14 tests passed against production.
 - Live Lighthouse: 100 performance, accessibility, best practices, and SEO; LCP 1.5 s, CLS 0, TBT 0 ms.
