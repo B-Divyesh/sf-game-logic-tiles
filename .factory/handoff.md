@@ -1,4 +1,41 @@
-# Game Logic Tiles — repair handoff
+# Game Logic Tiles — verification handoff
+
+## Current release status
+
+**PASS — candidate `bed5b8eea9f290308b73e3321c5270403ca0f81f` is accepted.**
+
+Independent verification on 2026-08-29 UTC confirmed that the live site at
+https://game-logic-tiles.sociobot.in matches this candidate byte-for-byte.
+There are no open Critical, High, Medium, or Low defects. The full evidence is
+in `.factory/verification-2.md`.
+
+### How the current candidate was verified
+
+- Clean `npm ci`, all eight exact `/demo` claim commands, `npm test`, and
+  `npm run build` passed. The build includes TypeScript checking; no standalone
+  lint command is configured.
+- Fresh live desktop and 390 px mobile testing covered solve/undo/reset,
+  invalid-seed recovery, timer boundary, seed restore, demo storage isolation,
+  keyboard/touch, focus, reduced motion, service-worker update/offline reload,
+  request logging, headers/caching, Axe, console errors, links, and asset
+  identity.
+- The static app makes no foreign runtime request and has no server endpoint,
+  sign-in, payment, or product-unlock route. Rate-limit and Entra checks are
+  therefore not applicable.
+
+### Run and demo
+
+```sh
+npm ci
+npm test
+npm run build
+```
+
+Use `/demo` for the isolated sample. It stores only
+`demo:game-logic-tiles:progress`; **Reset demo** clears it and **Start for
+real** discards it before opening `/play`.
+
+## Historical repair handoff
 
 ## Release status
 
