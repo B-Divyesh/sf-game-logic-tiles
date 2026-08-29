@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import {expect, test} from '@playwright/test';
 
-for (const path of ['/', '/?demo=1', '/demo', '/play', '/privacy', '/terms']) {
+for (const path of ['/', '/?demo=1', '/demo', '/play', '/privacy', '/terms', '/lost-in-the-marsh']) {
   test(`${path} has one clear page outline and no serious accessibility findings`, async ({page}) => {
     await page.goto(path);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
@@ -64,10 +64,35 @@ test('navigation, history, and normal play produce no console errors', async ({p
   expect(errors).toEqual([]);
 });
 
-test('unknown routes show a useful themed 404 screen in the application fallback', async ({page}) => {
-  await page.goto('/lost-in-the-marsh');
+test('back and forward restore the saved scroll position and focused control', async ({page}) => {
+  await page.goto('/');
+  const footerPrivacy = page.locator('.site-footer').getByRole('link', {name: 'Privacy'});
+  await footerPrivacy.scrollIntoViewIfNeeded();
+  await footerPrivacy.focus();
+  const homeScroll = await page.evaluate(() => scrollY);
+  expect(homeScroll).toBeGreaterThan(500);
+  await footerPrivacy.click();
+  await expect(page.getByRole('heading', {level: 1})).toBeFocused();
+  await page.goBack();
+  await expect(page.locator('.site-footer').getByRole('link', {name: 'Privacy'})).toBeFocused();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(homeScroll - 2);
+  await page.goForward();
+  await expect(page.getByRole('heading', {level: 1})).toBeFocused();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(2);
+});
+
+test('production server returns the shared accessible shell with HTTP 404', async ({page}) => {
+  const response = await page.goto('/lost-in-the-marsh');
+  expect(response?.status()).toBe(404);
   await expect(page.getByRole('heading', {level: 1})).toHaveText('Page not found');
   await expect(page.getByRole('link', {name: 'Return home'})).toBeVisible();
+  const notFoundDestinations = await page.locator('header a, footer a').evaluateAll(links => links.map(link => new URL((link as HTMLAnchorElement).href).pathname));
+  await page.goto('/privacy');
+  const sharedDestinations = await page.locator('header a, footer a').evaluateAll(links => links.map(link => new URL((link as HTMLAnchorElement).href).pathname));
+  expect(notFoundDestinations).toEqual(sharedDestinations);
+  await page.goto('/lost-in-the-marsh');
+  await expect(page.locator('footer')).toContainText('Environmental artwork generated for this project.');
+  await expect(page.locator('footer')).toContainText('external site');
 });
 
 test('each route updates title, canonical URL, and social metadata', async ({page}) => {

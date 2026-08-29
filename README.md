@@ -4,7 +4,7 @@ Change game rules and see each turn.
 
 Game Logic Tiles is for puzzle-loving beginners who want to learn game logic before learning a programming language or engine. Ten lessons cover movement, collisions, collecting, timers, and scoring. After each turn, a list shows the position, turn, seeds, and score that changed.
 
-Try the isolated sample at [`?demo=1`](https://game-logic-tiles.sociobot.in/?demo=1) or [`/demo`](https://game-logic-tiles.sociobot.in/demo). The demo stores progress under a separate `demo:` browser key. **Reset demo** restores the sample, and **Start for real** leaves the demo and resumes your saved progress.
+Try the isolated sample at [`?demo=1`](https://game-logic-tiles.sociobot.in/?demo=1) or [`/demo`](https://game-logic-tiles.sociobot.in/demo). The demo keeps its progress separate from your saved puzzles in this browser. **Reset demo** restores the sample, and **Start for real** leaves the demo and resumes your saved progress.
 
 ## What it includes
 
@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173/?demo=1` for the verification sandbox.
+Open `http://localhost:5173/?demo=1` to test sample data without changing normal progress.
 
 ## Test and build
 
@@ -35,11 +35,11 @@ npm test
 npm run build
 ```
 
-`npm test` runs deterministic rule-engine tests, builds the site, and runs Chromium browser tests. The exact production build command is `npm run build`. Output lands in `dist/`, with `dist/index.html` at its root.
+`npm test` checks repeatable game rules, builds the site, and tests it in Chromium. The exact production build command is `npm run build`. Output lands in `dist/`, with `dist/index.html` at its root.
 
 ## Deploy
 
-Deploy the contents of `dist/` as a static site. `staticwebapp.config.json` rewrites only the product routes, supplies security headers, and returns the styled 404 response for unknown paths.
+Deploy the contents of `dist/` as a static site. The deployment config serves app routes, adds security headers, and shows the designed not-found page for unknown paths.
 
 ## Privacy and license
 

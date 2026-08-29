@@ -1,11 +1,24 @@
 import './style.css';
 import {createSeed, initialState, levels, parseSeed, stepWorld, type Direction, type GameState, type Level, type Rules} from './game';
+import {shellFooter, shellHeader} from './shell.js';
 
 type Route = '/' | '/demo' | '/play' | '/privacy' | '/terms' | '/404';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const siteUrl = 'https://game-logic-tiles.sociobot.in';
 let currentCleanup: (() => void) | undefined;
+let restoringHistory = false;
+
+interface HistoryView {
+  scrollX: number;
+  scrollY: number;
+  focusKey?: string;
+}
+
+interface RouteHistoryState {
+  entryId: string;
+  view?: HistoryView;
+}
 
 const routeInfo: Record<Route, {title: string; description: string}> = {
   '/': {title: 'Game Logic Tiles — Change rules through play', description: 'Puzzle beginners change game rules and run turns across ten small learning puzzles.'},
@@ -16,31 +29,15 @@ const routeInfo: Record<Route, {title: string; description: string}> = {
   '/404': {title: 'Page not found — Game Logic Tiles', description: 'Return to Game Logic Tiles and choose a puzzle.'},
 };
 
-function iconMark() {
-  return `<svg class="wordmark-icon" aria-hidden="true" viewBox="0 0 40 40"><path d="M4 4h32v32H4z"/><path d="M15 4v32M26 4v32M4 15h32M4 26h32"/><circle cx="15" cy="26" r="4"/><path d="m27 12 6 4-6 4z"/></svg>`;
-}
-
 function shell(content: string, route: Route, demo = false) {
   return `
     <a class="skip-link" href="#main">Skip to main content</a>
     ${demo ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — sample data, nothing is saved</span><div><button class="text-button" data-reset-demo>Reset demo</button><a href="/play" data-start-real>Start for real</a></div></aside>` : ''}
-    <header class="site-header">
-      <a class="wordmark" href="/" data-route aria-label="Game Logic Tiles home">${iconMark()}<span>Game Logic Tiles</span></a>
-      <nav aria-label="Main navigation">
-        <a href="/demo" data-route ${route === '/demo' ? 'aria-current="page"' : ''}>Demo</a>
-        <a href="/#how" data-home-anchor>How it works</a>
-        <a href="/privacy" data-route ${route === '/privacy' ? 'aria-current="page"' : ''}>Privacy</a>
-      </nav>
-    </header>
+    ${shellHeader(route)}
     <div class="network-status" role="status">Offline</div>
     <div id="route-status" class="sr-only" aria-live="polite"></div>
     ${content}
-    <footer class="site-footer">
-      <div><span class="footer-mark">◇</span><p><strong>Game Logic Tiles</strong><br>Change a rule. See what it caused.</p></div>
-      <nav aria-label="Footer navigation"><a href="/privacy" data-route>Privacy</a><a href="/terms" data-route>Terms</a><a href="https://hello-factory.sociobot.in" rel="noreferrer">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
-      <p class="build-id">Version 1.0 · build 2026.08</p>
-      <p class="art-credit">Environmental artwork generated for this project.</p>
-    </footer>`;
+    ${shellFooter()}`;
 }
 
 function homePage() {
@@ -78,7 +75,7 @@ function homePage() {
       </section>
 
       <section id="how" class="how-section" aria-labelledby="how-title">
-        <div class="section-heading"><p class="eyebrow">How it works</p><h2 id="how-title">Solve each lesson in three steps</h2></div>
+        <div class="section-heading"><p class="eyebrow">How it works</p><h2 id="how-title">How to solve a lesson</h2></div>
         <ol class="steps">
           <li><span>01</span><div><h3>Read the goal</h3><p>Each puzzle asks you to reach one result.</p></div></li>
           <li><span>02</span><div><h3>Change a rule</h3><p>Edit movement, collisions, collecting, time, or points.</p></div></li>
@@ -89,7 +86,7 @@ function homePage() {
       <section class="boundary-section" aria-labelledby="boundary-title">
         <div><p class="eyebrow">Product limits</p><h2 id="boundary-title">Fixed puzzles for learning game rules</h2></div>
         <p>Game Logic Tiles has ten playable lessons. It does not include accounts, multiplayer, freeform code, or an asset store.</p>
-        <a class="secondary-button" href="/play" data-route>Start lesson 1</a>
+        <a class="secondary-button" href="/play" data-route>Start or resume a lesson</a>
       </section>
     </main>`, '/');
 }
@@ -333,6 +330,11 @@ function setupGame(demo: boolean) {
 }
 
 function bindShell() {
+  const pageHeading = document.querySelector<HTMLElement>('h1');
+  if (pageHeading) pageHeading.dataset.historyFocus = 'page-heading';
+  document.querySelectorAll<HTMLElement>('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])').forEach((element, index) => {
+    element.dataset.historyFocus = `control-${index}`;
+  });
   document.querySelectorAll<HTMLAnchorElement>('a[data-route]').forEach(link => link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || link.target) return;
     event.preventDefault();
@@ -365,7 +367,12 @@ function setMeta(route: Route) {
   document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]')!.content = info.description;
 }
 
-function render(moveFocus = false) {
+function announceRoute() {
+  const status = document.querySelector('#route-status');
+  if (status) status.textContent = `${document.title} loaded`;
+}
+
+function render(mode: 'initial' | 'push' | 'pop' = 'initial', savedView?: HistoryView) {
   currentCleanup?.();
   currentCleanup = undefined;
   const known = ['/', '/demo', '/play', '/privacy', '/terms'];
@@ -387,27 +394,63 @@ function render(moveFocus = false) {
       document.querySelector('#preview-result')!.innerHTML = changed ? '<strong>Before:</strong> the explorer skips the seed.' : '<strong>After:</strong> the explorer lands on the seed and collects it.';
     });
   }
-  if (moveFocus) {
+  if (mode === 'push') {
     requestAnimationFrame(() => {
       const heading = document.querySelector<HTMLElement>('h1');
       heading?.setAttribute('tabindex', '-1');
-      heading?.focus();
-      const status = document.querySelector('#route-status');
-      if (status) status.textContent = `${document.title} loaded`;
-      scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+      scrollTo({top: 0, left: 0, behavior: 'instant'});
+      heading?.focus({preventScroll: true});
+      announceRoute();
     });
+  } else if (mode === 'pop') {
+    restoringHistory = true;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      scrollTo({top: savedView?.scrollY ?? 0, left: savedView?.scrollX ?? 0, behavior: 'instant'});
+      if (savedView?.focusKey) {
+        const focusTarget = document.querySelector<HTMLElement>(`[data-history-focus="${savedView.focusKey}"]`);
+        if (focusTarget?.matches('h1')) focusTarget.setAttribute('tabindex', '-1');
+        focusTarget?.focus({preventScroll: true});
+      }
+      announceRoute();
+      restoringHistory = false;
+    }));
   }
 }
 
-function navigate(path: string) {
-  history.pushState({}, '', path);
-  render(true);
+function currentHistoryState(): RouteHistoryState {
+  const state = history.state as Partial<RouteHistoryState> | null;
+  return {entryId: state?.entryId ?? crypto.randomUUID(), view: state?.view};
 }
 
-addEventListener('popstate', () => render(true));
+function recordCurrentView() {
+  if (restoringHistory) return;
+  const active = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  const view: HistoryView = {
+    scrollX,
+    scrollY,
+    ...(active?.dataset.historyFocus ? {focusKey: active.dataset.historyFocus} : {}),
+  };
+  history.replaceState({...currentHistoryState(), view}, '', location.href);
+}
+
+function navigate(path: string) {
+  recordCurrentView();
+  history.pushState({entryId: crypto.randomUUID()}, '', path);
+  render('push');
+}
+
+history.scrollRestoration = 'manual';
+history.replaceState(currentHistoryState(), '', location.href);
+let scrollFrame = 0;
+addEventListener('scroll', () => {
+  cancelAnimationFrame(scrollFrame);
+  scrollFrame = requestAnimationFrame(recordCurrentView);
+}, {passive: true});
+addEventListener('focusin', recordCurrentView);
+addEventListener('popstate', event => render('pop', (event.state as RouteHistoryState | null)?.view));
 addEventListener('online', () => document.body.dataset.network = 'online');
 addEventListener('offline', () => document.body.dataset.network = 'offline');
 document.body.dataset.network = navigator.onLine ? 'online' : 'offline';
-render();
+render('initial');
 
 if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => undefined));

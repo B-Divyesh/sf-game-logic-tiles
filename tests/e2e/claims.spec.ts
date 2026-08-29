@@ -120,6 +120,42 @@ test('@claim:private-local preserves real progress and removes the demo namespac
   await expect(page.getByRole('textbox', {name: /email|name|account/i})).toHaveCount(0);
 });
 
+test('@claim:demo-reset-resume restores every sample default and resumes untouched progress', async ({page}) => {
+  const sentinel = JSON.stringify({levelId: 2, completed: [1], rules: {move: 2, collide: 'bounce', collect: true, timer: 9, score: 3}});
+  await page.goto('/');
+  await page.evaluate(value => localStorage.setItem('game-logic-tiles:progress', value), sentinel);
+  await page.goto(demoUrl);
+  for (const name of ['Set Move to 1 square', 'Set Collide to bounce', 'Set Collect to off', 'Set Timer to 6 turns', 'Set Score to 2 per seed']) {
+    await page.getByRole('button', {name}).click();
+  }
+  await page.getByRole('button', {name: 'Reset demo'}).click();
+  await expect(page.getByRole('heading', {level: 1})).toHaveText('The missed seed');
+  for (const defaultAction of ['Set Move to 1 square', 'Set Collide to bounce', 'Set Collect to off', 'Set Timer to 6 turns', 'Set Score to 2 per seed']) {
+    await expect(page.getByRole('button', {name: defaultAction})).toBeVisible();
+  }
+  await page.getByRole('link', {name: 'Start for real'}).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await expect(page.getByRole('heading', {level: 1})).toHaveText('Hands full');
+  for (const savedAction of ['Set Move to 1 square', 'Set Collide to stop', 'Set Collect to off', 'Set Timer to 10 turns', 'Set Score to 1 per seed']) {
+    await expect(page.getByRole('button', {name: savedAction})).toBeVisible();
+  }
+  const stored = await page.evaluate(() => ({real: localStorage.getItem('game-logic-tiles:progress'), demo: localStorage.getItem('demo:game-logic-tiles:progress')}));
+  expect(stored).toEqual({real: sentinel, demo: null});
+});
+
+test('@claim:start-or-resume opens saved progress from the landing action', async ({page}) => {
+  await page.goto('/');
+  await page.evaluate(() => localStorage.setItem('game-logic-tiles:progress', JSON.stringify({
+    levelId: 2,
+    completed: [1],
+    rules: {move: 2, collide: 'bounce', collect: true, timer: 9, score: 3},
+  })));
+  await page.getByRole('link', {name: 'Start or resume a lesson'}).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await expect(page.getByRole('heading', {level: 1})).toHaveText('Hands full');
+  await expect(page.getByRole('button', {name: 'Set Move to 1 square'})).toBeVisible();
+});
+
 test('@claim:share-seed restores a non-default lesson and all five rule values', async ({page, browser}) => {
   await page.goto(demoUrl);
   await selectLesson(page, 5);
